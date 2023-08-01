@@ -58,8 +58,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
             }),
 
             invalidatesTags: [
-                'Post'
-                // { type: 'Post', id: 'LIST' }
+                'Post', 'User'
             ]
         }),
 
@@ -74,12 +73,18 @@ export const postsApiSlice = apiSlice.injectEndpoints({
             }),
 
             invalidatesTags: [
-                'Post'
-                // { type: 'Post', id: 'LIST' }
+                'Post', 'User'
             ]
-            // invalidatesTags: (result, error, arg) => [
-            //     { type: 'Post', id: arg.id }
-            // ]
+        }),
+
+        deletePost: builder.mutation({
+            query: ({ id }) => ({
+                url: '/posts/',
+                method: 'DELETE',
+                body: { id }
+            }),
+
+            invalidatesTags: ['Post']
         })
 
 
@@ -97,6 +102,7 @@ export const {
     useGetUserPostsQuery,
     useAddNewPostMutation,
     useUpdatePostMutation,
+    useDeletePostMutation
 } = postsApiSlice
 
 // selectPostsResult contains query result

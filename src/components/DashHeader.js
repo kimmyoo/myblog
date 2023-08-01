@@ -29,7 +29,7 @@ const DashHeader = () => {
     const content = (
         <header>
             <nav className="navbar">
-                <div className="logo">Yao's Blog</div>
+                <div className="logo">雜 記</div>
                 <ul className="nav-links">
                     <input type="checkbox" id="checkbox_toggle" />
                     <label htmlFor="checkbox_toggle" className="hamburger">&#9776;</label>

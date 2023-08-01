@@ -2,15 +2,18 @@ import { Link } from "react-router-dom"
 
 const HomePage = () => {
     const content = (
-        <section>
-            <header>
-                <h2>My Blog</h2>
+        <>
+            <header className="navbar">
+                <h2>BLOG+雜記</h2>
             </header>
             <main>
-                自制pyq
-                <Link to="/login"><h3>Login</h3></Link>
+                <div className="landing-page">
+                    
+                    <Link to="/login"><h3>登录</h3></Link>
+                    <h3>只有自己一个人的朋友圈...</h3>
+                </div>
             </main>
-        </section>
+        </>
     )
   return (
     content

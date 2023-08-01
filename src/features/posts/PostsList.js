@@ -34,6 +34,7 @@ const PostsList = () => {
         <div className="postList-wrapper">
             <h2>All Posts</h2>
             {content}
+            <p className="center">The End</p>
         </div>
     )
 }

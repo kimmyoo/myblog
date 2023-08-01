@@ -26,7 +26,7 @@ export const apiSlice = createApi({
 
     baseQuery: baseQuery,
     // https://redux-toolkit.js.org/rtk-query/usage/automated-refetching
-    tagTypes: ['Post'],
+    tagTypes: ['User', 'Post'],
 
     // here the endpoints are empty but will be injected 
     // by postsApiSlice

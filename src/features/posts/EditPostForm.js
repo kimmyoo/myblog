@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useUpdatePostMutation } from "./postsApiSlice"
+import { useUpdatePostMutation, useDeletePostMutation } from "./postsApiSlice"
 import { CATEGORIES } from 'config/categories'
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
@@ -12,6 +12,12 @@ const EditPostForm = ({ post }) => {
         isError,
         error
     }] = useUpdatePostMutation()
+
+    const [deletePost, {
+        isError: isDelError,
+        error: delError
+    }] = useDeletePostMutation()
+
     const navigate = useNavigate()
 
     const [title, setTitle] = useState(post.title)
@@ -91,8 +97,13 @@ const EditPostForm = ({ post }) => {
             // after query this the component rerenders
             // and enter loading state
             navigate('/profile-dash/posts')
-
         }
+    }
+
+    const handleDeletePost = async (e) => {
+        e.preventDefault()
+        await deletePost({ id: post.id })
+        navigate('/profile-dash/posts')
     }
 
     const options = Object.values(CATEGORIES).map(category => {
@@ -102,10 +113,12 @@ const EditPostForm = ({ post }) => {
     })
 
 
+    const errContent = (error?.data?.message || delError?.data?.message) ?? ''
+
     return (
         <div className="post-wrapper">
             <h2>Edit Post: {title}</h2>
-            {isError && <p className="errMsg">{error?.data?.message}</p>}
+            {(isError || isDelError) && <p className="errMsg">{errContent}</p>}
             <form>
                 <label htmlFor="title"><h4>Post Title*</h4></label>
                 <p>
@@ -157,6 +170,7 @@ const EditPostForm = ({ post }) => {
                         </span>)}
                 </p>
 
+
                 <small>#</small>
                 <input
                     name="tags"
@@ -166,6 +180,16 @@ const EditPostForm = ({ post }) => {
                     onChange={handleTagChange}
                     onKeyDown={handleEnterKeyPressed}
                 />
+
+
+                <p
+                    className="right warning"
+                    onClick={handleDeletePost}
+                >
+                    <button>Delete Post</button>
+                </p>
+
+
 
                 <p className="center">
                     <button

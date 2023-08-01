@@ -51,6 +51,7 @@ li {
   list-style: none;
 }
 
+
 h1, h2, h3{
   text-align: center;
 }
@@ -72,17 +73,12 @@ input, textarea, select{
   border-radius: 8px;
 }
 
-
-
 button {
   padding: 4px;
   margin: 10px 10px;
   border-radius: 4px;
   width:100px;
 }
-
-
-
 
 main {
   flex: 1; /* Allow the main content to grow and fill the available space */
@@ -91,10 +87,7 @@ main {
   和一个margin-bottom 因为有sticky footer
    */
   margin-bottom: 50px;
-  /* min-height: 100vh; */
 }
-
-
 /* footer */
 footer {
   color: rgb(186, 191, 192);
@@ -107,8 +100,6 @@ footer {
   /* margin-top: 1vh; */
   bottom: 0; /* Stick the footer to the bottom of the container */
 }
-
-
 
 /* common */
 .center{
@@ -126,13 +117,10 @@ footer {
   color:rgb(240, 88, 54);
   text-align: center;
 }
-/* .errMsg{
-  background-color: rgb(241, 98, 98);
-  color:burlywood
-} */
 
-
-
+.warning button{
+  background-color: orange;
+}
 
 
 /* NAVBAR STYLING STARTS */
@@ -283,7 +271,8 @@ input[type=checkbox] {
 /* post list view */
 .postList-wrapper{
   width: 90%;
-  margin: 0 auto ;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
 
@@ -291,7 +280,11 @@ input[type=checkbox] {
 /* post view */
 .post-wrapper{
   width: 90%;
-  margin: 0 auto
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: justify;
+  text-justify: inter-word;
+  font-size:small
 }
 
 .post-wrapper select{
@@ -302,6 +295,7 @@ input[type=checkbox] {
   input[type="text"]{
   text-align: left;
   width: 72%;
+  font-size: medium;
 }
 
 .post-wrapper 
@@ -312,14 +306,28 @@ input[type=checkbox] {
   margin: 10px 0px;
   text-align: left;
   width: 100%;
+  font-size: large;
 }
 
 
 /* post view responsive */
 @media (max-width: 768px) {
+  .postList-wrapper, .post-wrapper{
+    padding: 0;
+    width: 96%;
+    font-size: smaller;
+  }
+
   .post-wrapper
     input[type="text"]{
     width: 100%;
+    font-size: large;
+  }
+
+  .post-wrapper
+     textarea {
+    width: 100%;
+    font-size:large;
   }
 }
 
@@ -328,14 +336,14 @@ input[type=checkbox] {
 .post-card{
   color: rgb(80, 77, 77);
   padding: 10px;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 .post-content{
   margin: 3rem 2rem;
   font-size: large;
 }
-
-
 
 .post-card:hover{
   background-color: rgba(240, 255, 255, 0.486);
@@ -345,4 +353,30 @@ input[type=checkbox] {
   -ms-transition: background-color 500ms linear;
   transition: background-color 500ms linear;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+
+/* profile-dash view */
+.profile-dash-wrapper{
+  width: 90%;
+  padding: 2rem; 
+  margin: 0 auto;
+  border-radius: 30px;
+}
+
+
+.grid{
+  display: block;
+  background-color: rgba(255, 253, 240, 0.486);
+}
+
+.grid > * {
+    padding: 1.5rem;
+}
+
+@media (min-width:768px) {
+    .grid{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
 }
