@@ -284,7 +284,10 @@ input[type=checkbox] {
   padding: 1rem;
   text-align: justify;
   text-justify: inter-word;
-  font-size:small
+  font-size:small;
+  border-radius: 5px;
+  /* background-color: #434648a8;
+  color:rgb(206, 206, 206) */
 }
 
 .post-wrapper select{
@@ -346,8 +349,8 @@ input[type=checkbox] {
 }
 
 .post-card:hover{
-  background-color: rgba(240, 255, 255, 0.486);
-  color: rgb(0, 0, 0);
+  background-color:#46484ae9;;
+  color: rgb(190, 187, 187);
   border-radius: 8px;
   -webkit-transition: background-color 500ms linear;
   -ms-transition: background-color 500ms linear;
@@ -379,4 +382,19 @@ input[type=checkbox] {
         display: grid;
         grid-template-columns: 1fr 1fr;
     }
+}
+
+
+/* Quill component  */
+
+.quill-wrapper{
+  font-size: larger;
+  min-height: 400px;
+  border-radius: 10px;
+}
+
+
+/* search component */
+.matching{
+  background-color: yellow;
 }

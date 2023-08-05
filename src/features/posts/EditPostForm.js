@@ -4,6 +4,8 @@ import { CATEGORIES } from 'config/categories'
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { nanoid } from "nanoid"
+import ReactQuill from 'react-quill'
+import { quillStyle, modules } from "config/quillSetups"
 
 const EditPostForm = ({ post }) => {
     // console.log(post)
@@ -31,9 +33,10 @@ const EditPostForm = ({ post }) => {
     const handleTitleChange = (e) => {
         setTitle(e.target.value)
     }
-    const handleContentChange = (e) => {
-        setContent(e.target.value)
-    }
+
+    // const handleContentChange = (e) => {
+    //     setContent(e.target.value)
+    // }
 
     const handleCategoryChange = (e) => {
         const selectedCategory = e.target.value
@@ -130,14 +133,25 @@ const EditPostForm = ({ post }) => {
                         onChange={handleTitleChange}
                     />
                 </p>
-                <label htmlFor="content"><h4>Content*</h4></label>
-                <textarea
+                <label htmlFor="content"><h4>Content Editor*</h4></label>
+
+                <div className="quill-wrapper">
+                    <ReactQuill
+                        theme="snow"
+                        style={quillStyle}
+                        modules={modules}
+                        value={content}
+                        onChange={setContent}
+                    />
+                </div>
+
+                {/* <textarea
                     name="content"
                     id="content"
                     value={content}
                     onChange={handleContentChange}
-                >
-                </textarea>
+                /> */}
+
 
                 <label htmlFor="category">Category*</label>
                 <select

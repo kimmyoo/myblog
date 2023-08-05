@@ -3,7 +3,9 @@ import { useAddNewPostMutation } from "./postsApiSlice"
 import { useState, useEffect } from "react"
 import { CATEGORIES } from 'config/categories'
 import { nanoid } from "nanoid"
-
+import ReactQuill from 'react-quill'
+import { quillStyle, modules } from "config/quillSetups"
+import 'react-quill/dist/quill.snow.css'
 
 const CreatePost = () => {
     // this is not called immediately
@@ -41,9 +43,9 @@ const CreatePost = () => {
     const handleTitleChange = (e) => {
         setTitle(e.target.value)
     }
-    const handleContentChange = (e) => {
-        setContent(e.target.value)
-    }
+    // const handleContentChange = (e) => {
+    //     setContent(e.target.value)
+    // }
 
     const handleCategoryChange = (e) => {
         const selectedCategory = e.target.value
@@ -113,6 +115,24 @@ const CreatePost = () => {
     })
 
 
+    // const quillStyle = {
+    //     height: 300,
+    //     borderRight: 'none',
+    //     fontSize: '18px',
+    //     backgroundColor: 'rgba(240, 255, 255, 0.486)',
+    // };
+
+    // const modules = {
+    //     toolbar: [
+    //         [{ 'header': [1, 2, false] }],
+    //         [{ 'size': ['small', false, 'large', 'huge'] }],
+    //         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    //         [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+    //         ['link', 'image'],
+    //         ['clean']
+    //     ],
+    // }
+
     return (
         <div className="post-wrapper">
             <h2>Add a New Post</h2>
@@ -127,14 +147,25 @@ const CreatePost = () => {
                         onChange={handleTitleChange}
                     />
                 </p>
-                <label htmlFor="content"><h4>Content*</h4></label>
-                <textarea
+                <label htmlFor="content"><h4>Content Editor*</h4></label>
+
+
+                <div className="quill-wrapper">
+                    <ReactQuill
+                        theme="snow"
+                        style={quillStyle}
+                        modules={modules}
+                        value={content}
+                        onChange={setContent}
+                    />
+                </div>
+                {/* <textarea
                     className="post-content"
                     name="content"
                     id="content"
                     onChange={handleContentChange}
                 >
-                </textarea>
+                </textarea> */}
 
                 <label htmlFor="category">Category*</label>
                 <select

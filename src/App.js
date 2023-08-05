@@ -14,7 +14,6 @@ import SearchPost from 'features/posts/SearchPost';
 import SinglePost from 'features/posts/SinglePost';
 import AutoScrollTop from 'components/AutoScrollTop';
 
-
 function App() {
   return (
     <div className="app">

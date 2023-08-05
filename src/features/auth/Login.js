@@ -1,55 +1,45 @@
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 
 import { useDispatch } from "react-redux"
 import { setCredentials } from "./authSlice"
 import { useLoginMutation } from "./authApiSlice"
 
+import { useForm } from "react-hook-form"
+import { DevTool } from "@hookform/devtools"
+
 
 const Login = () => {
-  const userRef = useRef()
-  const errRef = useRef()
+  const [login] = useLoginMutation()
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+
+  const form = useForm()
+  const { register, control, handleSubmit, formState } = form
+  // form erros from formState which is from useForm hook
+  const { errors } = formState
+
+
+  // const userRef = useRef()
+  const errRef = useRef()
   const [errMsg, setErrMsg] = useState('')
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const [login] = useLoginMutation()
-
-  // put email field to focus after component mounts
-  useEffect(() => {
-    userRef.current.focus()
-  }, [])
-
-  // if the user start to type email or pass
-  // clear error message
-  useEffect(() => {
-    setErrMsg('')
-  }, [email, password])
-
-
-  const handleUserInput = (e) => {
-    setEmail(e.target.value)
-  }
-
-  const handlePwdChange = (e) => {
-    setPassword(e.target.value)
-  }
-
+  const emailRegex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
 
   //async 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const onSubmit = async (formData) => {
+    // e.preventDefault()
+    console.log(formData)
+    const { email, password } = formData
     try {
       // console.log(email, password)
       const { accessToken } = await login({ email, password }).unwrap()
       // dispatch an action to update state
       dispatch(setCredentials({ accessToken: accessToken }))
-      setEmail('')
-      setPassword('')
+      // setEmail('')
+      // setPassword('')
       navigate('/profile-dash')
     } catch (err) {
       // a couple of scenarios
@@ -72,21 +62,36 @@ const Login = () => {
     <div className="login-form-wrapper">
       <header><h3>LOG IN</h3></header>
       <main>
-
-        <form onSubmit={handleSubmit}>
+        {/* add noValidate for react-hook-form to validate form */}
+        <form onSubmit={(handleSubmit(onSubmit))} noValidate>
           {/* htmlFor  consistent with id of input */}
           <p>
             <label htmlFor="email">Email</label>
             <input
               type="email"
               id="email"
-              ref={userRef}
-              value={email}
-              onChange={handleUserInput}
-              autoComplete="off"
-              required
+              {...register("email", {
+                required: {
+                  value: true,
+                  message: "Email is required"
+                },
+                pattern: {
+                  value: emailRegex,
+                  message: "Invalid email address"
+                },
+                validate: {
+                  noHotmail: (fieldValue) => {
+                    return !fieldValue.endsWith("hotmail.com") || "Losers use hotmail."
+                  },
+                  noQQmail: (fieldValue) => {
+                    return !fieldValue.endsWith("qq.com") || "qq mail sucks."
+                  }
+                }
+              })}
             />
           </p>
+          {/* must use optional chaining on errors.properties? */}
+          <p className="errMsg">{errors.email?.message}</p>
 
 
           <p>
@@ -94,16 +99,19 @@ const Login = () => {
             <input
               type="password"
               id="password"
-              onChange={handlePwdChange}
-              value={password}
-              required
+              {...register("password", {
+                required: "Password is required"
+              })}
             />
           </p>
+          <p className="errMsg">{errors.password?.message}</p>
           {/* no need to specify type = "submit" */}
           <button>Sign In</button>
           {/* err message displayed here */}
           <p className="errMsg" ref={errRef} aria-live="assertive"> {errMsg} </p>
         </form>
+
+        <DevTool control={control} />
       </main>
     </div>
   )

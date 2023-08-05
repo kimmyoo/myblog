@@ -9,13 +9,17 @@ const PostCard = ({ postId }) => {
     if (post) {
         const created = new Date(post.createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
         content = (
-            <Link to={`${postId}`}>
+            <Link to={`/profile-dash/posts/${postId}`}>
                 <div className="post-card">
                     <h4>
                         Title: {post.title}
                         {post.isPrivate && <small> &#12953;</small>}
                     </h4>
-                    <p>{post.content.slice(0, 300).concat('...')}</p>
+                    <p
+                        dangerouslySetInnerHTML={{ __html: post.content.slice(0, 350).concat('...') }}
+                    >
+
+                    </p>
                     {
                         post.tags
                             ?

@@ -47,6 +47,38 @@ export const postsApiSlice = apiSlice.injectEndpoints({
             }
         }),
 
+        searchPost: builder.query({
+            query: (arg) => {
+                const { filteredTerm, option } = arg
+                // console.log(filteredTerm, option)
+                return {
+                    url: `/posts/search?q1=${filteredTerm}&q2=${option}`,
+                }
+            },
+            validateStatus: (response, result) => {
+                return response.status === 200 && !result.isError
+            },
+            keepUnusedDataFor: 3600,
+            transformResponse: responseData => {
+                const queriedPosts = responseData.map(post => {
+                    post.id = post._id
+                    return post
+                })
+
+                return postsAdapter.setAll(initialState, queriedPosts)
+            },
+
+            providesTags: (result, error, arg) => {
+                if (result?.ids) {
+                    return [
+                        { type: 'Post', id: 'LIST' },
+                        ...result.ids.map(id => ({ type: 'Post', id }))
+                    ]
+                } else return [{ type: 'Post', id: 'LIST' }]
+            }
+        }),
+
+
         // add new post
         addNewPost: builder.mutation({
             query: (initialPostData) => ({
@@ -85,7 +117,9 @@ export const postsApiSlice = apiSlice.injectEndpoints({
             }),
 
             invalidatesTags: ['Post']
-        })
+        }),
+
+
 
 
 
@@ -102,11 +136,13 @@ export const {
     useGetUserPostsQuery,
     useAddNewPostMutation,
     useUpdatePostMutation,
-    useDeletePostMutation
+    useDeletePostMutation,
+    useSearchPostQuery,
 } = postsApiSlice
 
 // selectPostsResult contains query result
 export const selectPostsResult = postsApiSlice.endpoints.getUserPosts.select()
+export const selectSearchResult = postsApiSlice.endpoints.searchPost.select()
 
 // memoized selector, not exported for later use
 const selectPostsData = createSelector(
@@ -114,8 +150,20 @@ const selectPostsData = createSelector(
     postsResult => postsResult.data
 )
 
+const selectSearchData = createSelector(
+    selectSearchResult,
+    searchResult => searchResult.data
+)
+
+
+
 export const {
     selectAll: selectAllPosts,
     selectById: selectPostById,
     selectIds: selectPostIds,
 } = postsAdapter.getSelectors(state => selectPostsData(state) ?? initialState)
+
+export const {
+    selectAll: selectAllResults,
+    selectById: selectResultById,
+} = postsAdapter.getSelectors(state => selectSearchData(state) ?? initialState)

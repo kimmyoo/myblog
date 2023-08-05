@@ -23,7 +23,12 @@ const SinglePost = () => {
                 <article>
                     <h4 className="right">Created: {created}</h4>
 
-                    <p className="post-content">{post.content}</p>
+                    {/* <p className="post-content">{post.content}</p> */}
+
+                    <div className="post-content"
+                        dangerouslySetInnerHTML={{ __html: post.content }}
+                    >
+                    </div>
                     <hr />
                     {
                         post.tags
