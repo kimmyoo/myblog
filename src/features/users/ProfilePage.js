@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom"
 import useAuth from "hooks/useAuth"
-
 import { nanoid } from "nanoid"
-
 import { useGetUserProfileInfoQuery } from "./usersApiSlice"
 
 
 const ProfilePage = () => {
   const { userId, username, email } = useAuth()
   const { data: userInfo, isLoading } = useGetUserProfileInfoQuery(userId)
+
   const created = new Date(userInfo?.createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
+
   let content
   if (!isLoading) {
     content = (
@@ -28,7 +28,7 @@ const ProfilePage = () => {
           <br />
           <p>Total number of posts: {userInfo?.numOfposts}</p>
           <ul>
-            {userInfo?.categories.map(category => <li key={nanoid()}>{category._id}: {category.count} posts</li>)}
+            {userInfo?.categories?.map(category => <li key={nanoid()}>{category._id}: {category.count} posts</li>)}
           </ul>
         </div>
       </div>

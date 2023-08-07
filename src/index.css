@@ -245,12 +245,16 @@ input[type=checkbox] {
   background-color: #667D90;
 }
 
-.login-form-wrapper 
-  button{
+.login-form-wrapper button{
     border: solid rgb(226, 56, 56);
     background-color: rgb(226, 56, 56);
     color: silver;
-  }
+}
+
+.login-form-wrapper input[type=checkbox] {
+  display:inline;
+}
+
 
 
 
@@ -291,7 +295,7 @@ input[type=checkbox] {
 }
 
 .post-wrapper select{
-  width:max-content;
+  width: max-content;
 }
 
 .post-wrapper
@@ -397,4 +401,40 @@ input[type=checkbox] {
 /* search component */
 .matching{
   background-color: yellow;
+}
+
+
+/* .video-container{
+  position: fixed; 
+  z-index: -1; 
+  width: 100%; 
+  height: 100%;
+  opacity: 1;
+}
+
+iframe{
+  border: 0;
+  height: 100%;
+  width: 100%;
+  -webkit-transform-origin: top centre;
+} */
+.video-container {
+  position: relative;
+  overflow: hidden;
+  width: 98vw;
+  height: 85vh;
+  z-index: -1;
+  margin: 0 auto;
+}
+
+iframe {
+  position: absolute;
+  top: 58%;
+  left: 50%;
+  width: 100vw;
+  height: 100vh;
+  transform: translate(-50%, -50%);
+  @media (max-aspect-ratio: 16/9) {
+    width: 177.78vh
+  }
 }

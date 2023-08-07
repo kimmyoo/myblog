@@ -14,7 +14,7 @@ const DashHeader = () => {
     }] = useSendLogoutMutation()
 
     useEffect(() => {
-        if (isSuccess) navigate('/')
+        if (isSuccess) navigate("/")
     }, [isSuccess, navigate])
 
 

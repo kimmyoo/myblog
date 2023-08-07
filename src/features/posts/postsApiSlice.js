@@ -29,7 +29,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
             keepUnusedDataFor: 3600,
             // transform data from mongodb  (._id) 
             transformResponse: responseData => {
-                const loadedPosts = responseData.map(post => {
+                const loadedPosts = responseData?.map(post => {
                     post.id = post._id
                     return post
                 })

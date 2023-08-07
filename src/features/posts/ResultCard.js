@@ -14,7 +14,7 @@ const ResultCard = ({ postId, keyword }) => {
 
         const matchInContent = post.content?.toLowerCase().indexOf(keyword)
         const matchInTitle = post.title?.toLowerCase().indexOf(keyword)
-        console.log(matchInContent, matchInTitle)
+        // console.log(matchInContent, matchInTitle)
 
 
         // note: must check if match >= 0

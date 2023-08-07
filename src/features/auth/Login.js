@@ -4,13 +4,14 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { setCredentials } from "./authSlice"
 import { useLoginMutation } from "./authApiSlice"
+import usePersist from "hooks/usePersist"
 
 import { useForm } from "react-hook-form"
 import { DevTool } from "@hookform/devtools"
 
 
 const Login = () => {
-  const [login] = useLoginMutation()
+  const [login, { isLoading }] = useLoginMutation()
 
 
   const form = useForm()
@@ -22,25 +23,28 @@ const Login = () => {
   // const userRef = useRef()
   const errRef = useRef()
   const [errMsg, setErrMsg] = useState('')
+  const [persist, setPersist] = usePersist()
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const emailRegex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
 
+
+  const handleToggle = () => setPersist(prev => !prev)
+
+
   //async 
   const onSubmit = async (formData) => {
     // e.preventDefault()
-    console.log(formData)
+    // console.log(formData)
     const { email, password } = formData
     try {
       // console.log(email, password)
       const { accessToken } = await login({ email, password }).unwrap()
       // dispatch an action to update state
       dispatch(setCredentials({ accessToken: accessToken }))
-      // setEmail('')
-      // setPassword('')
-      navigate('/profile-dash')
+      navigate("/profile-dash")
     } catch (err) {
       // a couple of scenarios
       if (!err.status) {
@@ -56,7 +60,7 @@ const Login = () => {
     }
   }
 
-  // if (isLoading) return <p>loading...</p>
+  if (isLoading) return <p>loading...</p>
 
   const content = (
     <div className="login-form-wrapper">
@@ -107,6 +111,16 @@ const Login = () => {
           <p className="errMsg">{errors.password?.message}</p>
           {/* no need to specify type = "submit" */}
           <button>Sign In</button>
+          <br />
+          <label htmlFor="persist">
+            <input
+              type="checkbox"
+              id="persist"
+              onChange={handleToggle}
+              checked={persist}
+            />
+            Trust this device
+          </label>
           {/* err message displayed here */}
           <p className="errMsg" ref={errRef} aria-live="assertive"> {errMsg} </p>
         </form>
