@@ -5,7 +5,8 @@ import { setCredentials } from 'features/auth/authSlice'
 // need to send token back to backend to verify identity
 // must enable verifyJWT at backend so req.user can be set
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'http://localhost:3001',
+    // baseUrl: 'http://localhost:3001',
+    baseUrl: 'https://yaosblog-api.onrender.com',
     credentials: 'include', // send cookies
     prepareHeaders: (headers, { getState }) => {
         const token = getState().auth.token

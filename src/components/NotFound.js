@@ -4,8 +4,6 @@ const NotFound = () => {
     return (
         <div className="main">
             <h2>404 for you! Surprise~ supplies~~~ : ）<Link to="/login">go back</Link></h2>
-
-
             <div className="video-container">
                 <iframe
                     name="video"

@@ -19,7 +19,8 @@ export const store = configureStore({
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware().concat(apiSlice.middleware),
     // enabling redux devTool
-    devTools: true
+    devTools: false
+    // devTools: true
 })
 
 // You can think of dispatching actions as "triggering an event"
