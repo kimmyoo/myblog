@@ -16,7 +16,7 @@ const PostCard = ({ postId }) => {
                         {post.isPrivate && <small> &#12953;</small>}
                     </h4>
                     <p
-                        dangerouslySetInnerHTML={{ __html: post.content.slice(0, 350).concat('...') }}
+                        dangerouslySetInnerHTML={{ __html: post.content.slice(0, 300).concat('...') }}
                     >
 
                     </p>

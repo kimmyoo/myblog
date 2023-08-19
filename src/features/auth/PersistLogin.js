@@ -11,7 +11,7 @@ const PersistLogin = () => {
     const token = useSelector(selectCurrentToken)
 
     const effectRan = useRef(false)
-    const [trueSuccess, setTrueSuccess] = useState(false)
+    const [loginSuccess, setLoginSuccess] = useState(false)
 
     const [refresh, {
         // uninitialized: the refresh function has not been used
@@ -24,29 +24,56 @@ const PersistLogin = () => {
 
 
     useEffect(() => {
-        // react 18 strict mode 
-        if (effectRan.current === true || process.env.NODE_ENV !== 'development') {
+        // react 18 strict mode
+        if (effectRan.current === false || process.env.NODE_ENV !== 'development') {
             const verifyRefreshToken = async () => {
                 // console.log("verifying refresh token in PersistLogin component")
                 try {
+                    console.log("tried")
                     await refresh()
-                    setTrueSuccess(true)
+                    setLoginSuccess(true)
                 } catch (err) {
                     console.log(err)
                 }
             }
+            // console.log(token, loginSuccess, isSuccess)
 
-            if (!token && persist) verifyRefreshToken()
+            if (token) setLoginSuccess(true)
+            verifyRefreshToken()
+            // if token exists, no need to get refresh token; 
+            // go ahead a render children component
+            // !token ? verifyRefreshToken() : setLoginSuccess(true)
+
         }
+        return () => {
+            effectRan.current = true
+        }
+    }, [refresh, token, loginSuccess])
 
-        return () => effectRan.current = true
-        // disable warning for dependency
-        //eslint-disable-next-line
-    }, [])
+    // useEffect(() => {
+    //     // react 18 strict mode 
+    //     if (effectRan.current === true || process.env.NODE_ENV !== 'development') {
+    //         const verifyRefreshToken = async () => {
+    //             // console.log("verifying refresh token in PersistLogin component")
+    //             try {
+    //                 await refresh()
+    //                 setLoginSuccess(true)
+    //             } catch (err) {
+    //                 console.log(err)
+    //             }
+    //         }
+
+    //         console.log(token)
+    //         if (!token && persist) verifyRefreshToken()
+    //     }
+
+    //     return () => effectRan.current = true
+    //     // disable warning for dependency
+    //     //eslint-disable-next-line
+    // }, [])
+
 
     let content
-
-
     if (!persist) {
         // console.log('no persist')
         content = <Outlet />
@@ -58,7 +85,7 @@ const PersistLogin = () => {
             className="errMsg">{`${error?.data?.message} - `}
             <Link to="/login">Please Login</Link>
         </p>
-    } else if (isSuccess && trueSuccess) {
+    } else if (isSuccess && loginSuccess) {
         // console.log('persist')
         content = <Outlet />
     }
